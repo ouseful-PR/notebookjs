@@ -75,14 +75,19 @@
             holder.setAttribute("data-prompt-number", this.cell.number);
         }
         var pre_el = makeElement("pre");
-        var code_el = makeElement("code");
+        //var code_el = makeElement("code");
         var notebook = cell.worksheet.notebook;
         var m = notebook.metadata;
         var lang = this.cell.raw.language || m.language || (m.kernelspec && m.kernelspec.language) || (m.language_info && m.language_info.name);
-        code_el.setAttribute("data-language", lang);
-        code_el.className = "lang-" + lang;
-        code_el.innerHTML = nb.highlighter(escapeHTML(joinText(this.raw)), pre_el, code_el, lang);
-        pre_el.appendChild(code_el);
+        //code_el.setAttribute("data-language", lang);
+        //code_el.className = "lang-" + lang;
+        //code_el.innerHTML = nb.highlighter(escapeHTML(joinText(this.raw)), pre_el, code_el, lang);
+        //pre_el.appendChild(code_el);
+
+        // ThebeLab looks for code in the form: <pre data-executable="true" data-language="python"></pre>
+        pre_el.setAttribute("data-executable", "true");
+        pre_el.setAttribute("data-language", "python3"); //use the lang value?
+        pre_el.innerHTML = joinText(this.raw);
         holder.appendChild(pre_el);
         this.el = holder;
         return holder;
